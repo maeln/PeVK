@@ -1,0 +1,7 @@
+[package]
+name = "pevk"
+version = "0.1.0"
+authors = ["Maël NACCACHE <contact@maeln.com>"]
+
+[dependencies]
+vulkano = "0.9"
