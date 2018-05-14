@@ -14,7 +14,11 @@ use vulkano::command_buffer::AutoCommandBufferBuilder;
 use vulkano::command_buffer::CommandBuffer;
 use vulkano::sync::GpuFuture;
 
-fn main() {
+fn init_vulkan() -> (
+    std::sync::Arc<vulkano::instance::Instance>,
+    std::sync::Arc<vulkano::device::Device>,
+    std::sync::Arc<vulkano::device::Queue>,
+) {
     let instance = Instance::new(None, &InstanceExtensions::none(), None)
         .expect("Your computer doesn't seem to support Vulkan.");
 
@@ -39,7 +43,11 @@ fn main() {
         ).expect("Failed to create device.")
     };
     let queue = queues.next().unwrap();
+    return (instance.clone(), device.clone(), queue.clone());
+}
 
+fn main() {
+    let (instance, device, queue) = init_vulkan();
     let data = 12;
     let buffer = CpuAccessibleBuffer::from_data(device.clone(), BufferUsage::all(), data)
         .expect("Failed to create buffer");
